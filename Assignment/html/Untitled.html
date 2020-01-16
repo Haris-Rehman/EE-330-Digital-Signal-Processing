@@ -1,0 +1,459 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Untitled</title><meta name="generator" content="MATLAB 9.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-04-15"><meta name="DC.source" content="Untitled.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">OHT-1 Assignment</a></li><li><a href="#3">Student Credentials</a></li><li><a href="#4">Read Image</a></li><li><a href="#5">Butterworth filter</a></li><li><a href="#6">Sampling through Zero Order Hold</a></li><li><a href="#7">Convolution with h[n]</a></li><li><a href="#8">Reconstruction</a></li><li><a href="#9">References</a></li></ul></div><pre class="codeinput">clc; clear <span class="string">all</span>; close <span class="string">all</span>; clear <span class="string">sound</span>;
+</pre><h2>OHT-1 Assignment<a name="2"></a></h2><p>Submitted to: Dr. Ahmad Salman</p><h2>Student Credentials<a name="3"></a></h2><p>Muhammad Haris Rehman _____ Reg. No. 182797 _____ Class: BEE-8D ______ NUST, SEECS</p><h2>Read Image<a name="4"></a></h2><p>The maximum frequency present in the signal is 1 bin/sample. if we look at it in normallized frequency, it is pi rad.</p><pre class="codeinput">original = imread(<span class="string">'r.png'</span>);
+original_bw = rgb2gray(original);
+figure; imshow(original_bw);
+
+<span class="comment">% signal image</span>
+signal = reshape(original_bw, 1, 768*1366);
+
+<span class="comment">% spectrum of signal</span>
+L = length(signal);
+Fs = L/(L/2);
+NFFT = 2^nextpow2(L);<span class="comment">% Next power of 2 from length of y</span>
+Y = fft(signal, NFFT)/L;
+f = Fs/2*linspace(0,1,NFFT/2+1);
+<span class="comment">% Plot single-sided amplitude spectrum.</span>
+figure, plot(f, 2*abs(Y(1:NFFT/2+1))),grid <span class="string">on</span>
+title(<span class="string">'Single-Sided Amplitude Spectrum of original signal'</span>)
+xlabel(<span class="string">'Frequency (bin/pixel) x pi'</span>)
+</pre><pre class="codeoutput">Warning: Image is too big to fit on screen; displaying at 67% 
+</pre><img vspace="5" hspace="5" src="Untitled_01.png" alt=""> <img vspace="5" hspace="5" src="Untitled_02.png" alt=""> <h2>Butterworth filter<a name="5"></a></h2><p>We apply butter worth filter to cut off the highest 5% frequencies from the signal to smoothen the signal, sharpens the edges and avoid aliasing while further processing.</p><pre class="codeinput">n = 4; f = 0.95;
+[zb,pb,kb] = butter(n, f,<span class="string">'s'</span>);
+[bb,ab] = zp2tf(zb,pb,kb);
+[hb,wb] = freqs(bb,ab,4096);
+figure, plot(wb/(f*pi),mag2db(abs(hb))), grid <span class="comment">% Butterworth filter response</span>
+title(<span class="string">'butter worth response'</span>)
+
+<span class="comment">%apply butterworth filter</span>
+Fc = 0.95;
+[b, a] = butter(4, Fc/(Fs/2));
+filterd_signal = filter(b, a, double(signal));
+<span class="comment">% Filtered Signal</span>
+figure, plot(filterd_signal)
+title(<span class="string">'Filtered Signal'</span>)
+
+<span class="comment">% spectrum of filtered signal</span>
+L2=length(filterd_signal);
+NFFT2 = 2^nextpow2(L2);<span class="comment">% Next power of 2 from length of y</span>
+Y = fft(filterd_signal, NFFT2)/L2;
+f = Fs/2*linspace(0,1,NFFT2/2+1);
+<span class="comment">% Plot single-sided amplitude spectrum.</span>
+figure, plot(f,2*abs(Y(1:NFFT2/2+1))),grid <span class="string">on</span>
+title(<span class="string">'Single-Sided Amplitude Spectrum of filtered signal'</span>)
+xlabel(<span class="string">'Normallized frequency "w" (x pi)'</span>)
+
+<span class="comment">% Filtered image</span>
+filterd_image = reshape(int8(filterd_signal), 768, 1366);
+figure; imshow(filterd_image)
+title(<span class="string">'filtered image'</span>)
+</pre><pre class="codeoutput">Warning: Image is too big to fit on screen; displaying at 67% 
+</pre><img vspace="5" hspace="5" src="Untitled_03.png" alt=""> <img vspace="5" hspace="5" src="Untitled_04.png" alt=""> <img vspace="5" hspace="5" src="Untitled_05.png" alt=""> <img vspace="5" hspace="5" src="Untitled_06.png" alt=""> <h2>Sampling through Zero Order Hold<a name="6"></a></h2><p>In this section, the sampling is done at T = 3, and every third signal is picked up to construct sampled signal. While selecting the value of T, one thing should be kept in mind that there should not be aliasing. I.e. Nyquist criteria should be satisfied. The zero Order Hold Filter is applied to generate the samples lost by sampling. It takes a sample and holds it fot T = 3. at the end of this section, a few samples are shown, showing that, the signal is already quantized as im using the int8 data-type.</p><pre class="codeinput">S = 3; <span class="comment">% at T = 3</span>
+sampled_image = filterd_image(1:S:end,1:S:end);
+figure, imshow(sampled_image)
+title(<span class="string">'sampled image'</span>)
+
+<span class="comment">% sampled discrete time signal</span>
+sampled_signal = reshape(sampled_image, 1, 256*456);
+figure, plot(sampled_signal)
+title(<span class="string">'sampled discrete time signal'</span>)
+
+<span class="comment">% its spectrum</span>
+L = length(signal);
+Fs = (L/(L/2));
+NFFT = 2^nextpow2(L);<span class="comment">% Next power of 2 from length of y</span>
+Y = fft(signal, NFFT)/L;
+f = Fs/2*linspace(0,1,NFFT/2+1);
+<span class="comment">% Plot single-sided amplitude spectrum.</span>
+figure, plot(f, 2*abs(Y(1:NFFT/2+1))),grid <span class="string">on</span>
+title(<span class="string">'Single-Sided Amplitude Spectrum of sampled signal'</span>)
+xlabel(<span class="string">'Normallized frequency "w" (x pi))'</span>)
+
+<span class="comment">% Zero Order Hold</span>
+L = length(sampled_image);
+nn = ceil((0.999:1:S*L)/S);
+xhold = sampled_image(:,nn);
+L = size(sampled_image);
+nn = ceil((0.999:1:S*L(1))/S);
+ZOH_image = xhold(nn,:);
+figure, imshow(ZOH_image)
+title(<span class="string">'zero order hold image'</span>)
+
+<span class="comment">% C/D conversion</span>
+d_image = ZOH_image(1:S:end,1:S:end);
+figure, imshow(d_image)
+title(<span class="string">'discrete image'</span>)
+
+<span class="comment">% sampled discrete time signal</span>
+d_signal = reshape(d_image, 1, 256*456);
+figure, plot(d_signal)
+title(<span class="string">'discrete time signal'</span>)
+<span class="comment">% Spectrum</span>
+<span class="comment">% Spectrum of reconstructed signal</span>
+L = length(d_signal);
+Fs = (L/(L/2));
+NFFT = 2^nextpow2(L);<span class="comment">% Next power of 2 from length of y</span>
+Y = fft(double(d_signal), NFFT)/L;
+f = Fs/2*linspace(0,1,NFFT/2+1);
+<span class="comment">% Plot single-sided amplitude spectrum.</span>
+figure, plot(f, 2*abs(Y(1:NFFT/2+1))),grid <span class="string">on</span>
+title(<span class="string">'Single-Sided Amplitude Spectrum of discrete signal'</span>)
+xlabel(<span class="string">'Normallized frequency "w" (x pi))'</span>)
+
+<span class="comment">% showing afew samples</span>
+d_signal(89581:89611)
+</pre><pre class="codeoutput">Warning: Image is too big to fit on screen; displaying at 67% 
+
+ans =
+
+  Columns 1 through 15
+
+    0    0    0    0    0    0    0    0    0    0   42   55   50   50   89
+
+  Columns 16 through 30
+
+   38   75   47   45   61   79   66   82   68   78   72   74   75   72   76
+
+  Column 31
+
+   72
+
+</pre><img vspace="5" hspace="5" src="Untitled_07.png" alt=""> <img vspace="5" hspace="5" src="Untitled_08.png" alt=""> <img vspace="5" hspace="5" src="Untitled_09.png" alt=""> <img vspace="5" hspace="5" src="Untitled_10.png" alt=""> <img vspace="5" hspace="5" src="Untitled_11.png" alt=""> <img vspace="5" hspace="5" src="Untitled_12.png" alt=""> <img vspace="5" hspace="5" src="Untitled_13.png" alt=""> <h2>Convolution with h[n]<a name="7"></a></h2><p>In this step, the signal is convolves with the h[n] to generate x(tilta)[n]. then, which is added to x[n] to generate y[n].</p><pre class="codeinput">h = [-2 4 -2];
+x_ = conv(double(sampled_signal), h);
+x_1 = 2:length(x_)-1; <span class="comment">% x tilta of n</span>
+x_1(1:end) = 0;
+x_1 = x_(2:length(x_)-1);
+y = sampled_signal;
+y(1:end) = 0;
+y = x_1 + double(sampled_signal);
+figure; plot(y)
+title(<span class="string">'convolved signal'</span>)
+
+<span class="comment">% Convolved image</span>
+Convolved_image = reshape(int8(y), 256, 456);
+figure, imshow(Convolved_image)
+title(<span class="string">'Convolved image'</span>)
+
+<span class="comment">% spectrum</span>
+L = length(y);
+Fs = L/(L/2);
+NFFT = 2^nextpow2(L);<span class="comment">% Next power of 2 from length of y</span>
+Y = fft(y, NFFT)/L;
+f = Fs/2*linspace(0,1,NFFT/2+1);
+<span class="comment">% Plot single-sided amplitude spectrum.</span>
+figure, plot(f, 2*abs(Y(1:NFFT/2+1))),grid <span class="string">on</span>
+title(<span class="string">'Single-Sided Amplitude Spectrum of convolved signal'</span>)
+xlabel(<span class="string">'Normallized frequency "w" (x pi)'</span>)
+</pre><img vspace="5" hspace="5" src="Untitled_14.png" alt=""> <img vspace="5" hspace="5" src="Untitled_15.png" alt=""> <img vspace="5" hspace="5" src="Untitled_16.png" alt=""> <h2>Reconstruction<a name="8"></a></h2><p>Reconstruction Filter is just the low pass filter having the cut off frequency from -pi to pi. As in matlab, the signal is already the discrete time signal and the spectrum is shown from -pi to pi. so, I am using the butterworth filter of cut off at 0.9pi.</p><pre class="codeinput">Fc = 0.9;
+[b, a] = butter(4, Fc/(Fs/2), <span class="string">'low'</span>);
+reconstructed_signal = filter(b, a, double(y));
+figure, plot(reconstructed_signal)
+title(<span class="string">'reconstructed signal'</span>)
+
+<span class="comment">% Butterworth filter response</span>
+n = 4; f = 0.9;
+[zb,pb,kb] = butter(n, f,<span class="string">'s'</span>);
+[bb,ab] = zp2tf(zb,pb,kb);
+[hb,wb] = freqs(bb,ab,4096);
+figure, plot(wb/(f*pi),mag2db(abs(hb))), grid <span class="comment">% Butterworth filter response</span>
+title(<span class="string">'butter worth response'</span>)
+
+
+<span class="comment">% Spectrum of reconstructed signal</span>
+L = length(reconstructed_signal);
+Fs = (L/(L/2));
+NFFT = 2^nextpow2(L);<span class="comment">% Next power of 2 from length of y</span>
+Y = fft(reconstructed_signal, NFFT)/L;
+f = Fs/2*linspace(0,1,NFFT/2+1);
+<span class="comment">% Plot single-sided amplitude spectrum.</span>
+figure, plot(f, 2*abs(Y(1:NFFT/2+1))),grid <span class="string">on</span>
+title(<span class="string">'Single-Sided Amplitude Spectrum of reconstructed signal'</span>)
+xlabel(<span class="string">'Normallized frequency "w" (x pi))'</span>)
+
+<span class="comment">% reconstructed image</span>
+reconstructed_image = reshape(int8(reconstructed_signal), 256, 456);
+figure; imshow(reconstructed_image)
+title(<span class="string">'reconstructed image'</span>)
+</pre><img vspace="5" hspace="5" src="Untitled_17.png" alt=""> <img vspace="5" hspace="5" src="Untitled_18.png" alt=""> <img vspace="5" hspace="5" src="Untitled_19.png" alt=""> <img vspace="5" hspace="5" src="Untitled_20.png" alt=""> <h2>References<a name="9"></a></h2><pre class="codeinput"><span class="comment">%   https://www.mathworks.com/help/signal/ref/butter.html</span>
+<span class="comment">%   Lab 3: Sampling and Reconstruction</span>
+<span class="comment">%   Lab 7: Digital Images A/D and D/A</span>
+<span class="comment">%   https://www.mathworks.com/help/matlab/matlab_prog/marking-up-matlab-comments-for-publishing.html</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2016a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+clc; clear all; close all; clear sound;
+
+%% OHT-1 Assignment
+% Submitted to: Dr. Ahmad Salman
+
+%% Student Credentials
+% Muhammad Haris Rehman _______ 
+% Reg. No. 182797 _______ 
+% Class: BEE-8D ________ 
+% NUST, SEECS
+
+%% Read Image
+% The maximum frequency present in the signal is 1 bin/sample. if we look
+% at it in normallized frequency, it is pi rad.
+
+original = imread('r.png');
+original_bw = rgb2gray(original);
+figure; imshow(original_bw);
+
+% signal image
+signal = reshape(original_bw, 1, 768*1366);
+
+% spectrum of signal
+L = length(signal);
+Fs = L/(L/2);
+NFFT = 2^nextpow2(L);% Next power of 2 from length of y
+Y = fft(signal, NFFT)/L;
+f = Fs/2*linspace(0,1,NFFT/2+1);
+% Plot single-sided amplitude spectrum.
+figure, plot(f, 2*abs(Y(1:NFFT/2+1))),grid on
+title('Single-Sided Amplitude Spectrum of original signal')
+xlabel('Frequency (bin/pixel) x pi')
+
+%% Butterworth filter
+% We apply butter worth filter to cut off the highest 5% frequencies from
+% the signal to smoothen the signal, sharpens the edges and avoid aliasing while further
+% processing.
+
+n = 4; f = 0.95; 
+[zb,pb,kb] = butter(n, f,'s');
+[bb,ab] = zp2tf(zb,pb,kb);
+[hb,wb] = freqs(bb,ab,4096);
+figure, plot(wb/(f*pi),mag2db(abs(hb))), grid % Butterworth filter response
+title('butter worth response')
+
+%apply butterworth filter
+Fc = 0.95;
+[b, a] = butter(4, Fc/(Fs/2));
+filterd_signal = filter(b, a, double(signal));
+% Filtered Signal
+figure, plot(filterd_signal)
+title('Filtered Signal')
+
+% spectrum of filtered signal
+L2=length(filterd_signal);
+NFFT2 = 2^nextpow2(L2);% Next power of 2 from length of y
+Y = fft(filterd_signal, NFFT2)/L2;
+f = Fs/2*linspace(0,1,NFFT2/2+1);
+% Plot single-sided amplitude spectrum.
+figure, plot(f,2*abs(Y(1:NFFT2/2+1))),grid on
+title('Single-Sided Amplitude Spectrum of filtered signal')
+xlabel('Normallized frequency "w" (x pi)')
+
+% Filtered image
+filterd_image = reshape(int8(filterd_signal), 768, 1366);
+figure; imshow(filterd_image)
+title('filtered image')
+
+%% Sampling through Zero Order Hold
+% In this section, the sampling is done at T = 3, and every third signal is
+% picked up to construct sampled signal. While selecting the value of T,
+% one thing should be kept in mind that there should not be aliasing. I.e.
+% Nyquist criteria should be satisfied.
+% The zero Order Hold Filter is applied to generate the samples lost by
+% sampling. It takes a sample and holds it fot T = 3.
+% at the end of this section, a few samples are shown, showing that, the
+% signal is already quantized as im using the int8 data-type.
+
+S = 3; % at T = 3
+sampled_image = filterd_image(1:S:end,1:S:end);
+figure, imshow(sampled_image)
+title('sampled image')
+
+% sampled discrete time signal
+sampled_signal = reshape(sampled_image, 1, 256*456);
+figure, plot(sampled_signal)
+title('sampled discrete time signal')
+
+% its spectrum
+L = length(signal);
+Fs = (L/(L/2));
+NFFT = 2^nextpow2(L);% Next power of 2 from length of y
+Y = fft(signal, NFFT)/L;
+f = Fs/2*linspace(0,1,NFFT/2+1);
+% Plot single-sided amplitude spectrum.
+figure, plot(f, 2*abs(Y(1:NFFT/2+1))),grid on
+title('Single-Sided Amplitude Spectrum of sampled signal')
+xlabel('Normallized frequency "w" (x pi))')
+
+% Zero Order Hold
+L = length(sampled_image);
+nn = ceil((0.999:1:S*L)/S);
+xhold = sampled_image(:,nn);
+L = size(sampled_image);
+nn = ceil((0.999:1:S*L(1))/S);
+ZOH_image = xhold(nn,:);
+figure, imshow(ZOH_image)
+title('zero order hold image')
+
+% C/D conversion
+d_image = ZOH_image(1:S:end,1:S:end);
+figure, imshow(d_image)
+title('discrete image')
+
+% sampled discrete time signal
+d_signal = reshape(d_image, 1, 256*456);
+figure, plot(d_signal)
+title('discrete time signal')
+% Spectrum
+% Spectrum of reconstructed signal
+L = length(d_signal);
+Fs = (L/(L/2));
+NFFT = 2^nextpow2(L);% Next power of 2 from length of y
+Y = fft(double(d_signal), NFFT)/L;
+f = Fs/2*linspace(0,1,NFFT/2+1);
+% Plot single-sided amplitude spectrum.
+figure, plot(f, 2*abs(Y(1:NFFT/2+1))),grid on
+title('Single-Sided Amplitude Spectrum of discrete signal')
+xlabel('Normallized frequency "w" (x pi))')
+
+% showing afew samples
+d_signal(89581:89611)
+
+%% Convolution with h[n]
+% In this step, the signal is convolves with the h[n] to generate
+% x(tilta)[n]. then, which is added to x[n] to generate y[n].
+
+h = [-2 4 -2];
+x_ = conv(double(sampled_signal), h);
+x_1 = 2:length(x_)-1; % x tilta of n
+x_1(1:end) = 0;
+x_1 = x_(2:length(x_)-1);
+y = sampled_signal;
+y(1:end) = 0;
+y = x_1 + double(sampled_signal);
+figure; plot(y)
+title('convolved signal')
+
+% Convolved image
+Convolved_image = reshape(int8(y), 256, 456);
+figure, imshow(Convolved_image)
+title('Convolved image')
+
+% spectrum
+L = length(y);
+Fs = L/(L/2);
+NFFT = 2^nextpow2(L);% Next power of 2 from length of y
+Y = fft(y, NFFT)/L;
+f = Fs/2*linspace(0,1,NFFT/2+1);
+% Plot single-sided amplitude spectrum.
+figure, plot(f, 2*abs(Y(1:NFFT/2+1))),grid on
+title('Single-Sided Amplitude Spectrum of convolved signal')
+xlabel('Normallized frequency "w" (x pi)')
+
+%% Reconstruction
+% Reconstruction Filter is just the low pass filter having the cut off
+% frequency from -pi to pi. As in matlab, the signal is already the
+% discrete time signal and the spectrum is shown from -pi to pi. so, I am
+% using the butterworth filter of cut off at 0.9pi.
+
+Fc = 0.9;
+[b, a] = butter(4, Fc/(Fs/2), 'low');
+reconstructed_signal = filter(b, a, double(y));
+figure, plot(reconstructed_signal)
+title('reconstructed signal')
+
+% Butterworth filter response
+n = 4; f = 0.9; 
+[zb,pb,kb] = butter(n, f,'s');
+[bb,ab] = zp2tf(zb,pb,kb);
+[hb,wb] = freqs(bb,ab,4096);
+figure, plot(wb/(f*pi),mag2db(abs(hb))), grid % Butterworth filter response
+title('butter worth response')
+
+
+% Spectrum of reconstructed signal
+L = length(reconstructed_signal);
+Fs = (L/(L/2));
+NFFT = 2^nextpow2(L);% Next power of 2 from length of y
+Y = fft(reconstructed_signal, NFFT)/L;
+f = Fs/2*linspace(0,1,NFFT/2+1);
+% Plot single-sided amplitude spectrum.
+figure, plot(f, 2*abs(Y(1:NFFT/2+1))),grid on
+title('Single-Sided Amplitude Spectrum of reconstructed signal')
+xlabel('Normallized frequency "w" (x pi))')
+
+% reconstructed image
+reconstructed_image = reshape(int8(reconstructed_signal), 256, 456);
+figure; imshow(reconstructed_image)
+title('reconstructed image')
+
+%% References
+
+%   https://www.mathworks.com/help/signal/ref/butter.html
+%   Lab 3: Sampling and Reconstruction
+%   Lab 7: Digital Images A/D and D/A
+%   https://www.mathworks.com/help/matlab/matlab_prog/marking-up-matlab-comments-for-publishing.html
+
+##### SOURCE END #####
+--></body></html>
